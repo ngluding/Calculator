@@ -7,35 +7,51 @@ const prevOperandTextElement = document.querySelector("[data-prev-operand]")
 const currentOperandTextElement= document.querySelector("[data-current-operand]")
 
 let currentNum = "";
+let previousNum = "";
+let operator = "";
 
 numberButton.forEach((button) => {
     button.addEventListener("click", (e) => {
-        updateDisplay(e.target.textContent);
-        console.log(e);
+        numberDisplay(e.target.textContent);
     });
 });
 
 operationButton.forEach((button) => {
     button.addEventListener("click", (e) => {
-        updateDisplay(e.target.textcontent);
+        operationDisplay(e.target.textContent);
         console.log(e);
     })
 })
 
-function updateDisplay(number) {
+clearButton.addEventListener("click", clear);
+
+deleteButton.addEventListener("click", backSpace);
+
+function numberDisplay(number) {
     if (number === "." && currentOperandTextElement.textContent.includes(".")) return;
-    
     currentNum += number;
     currentOperandTextElement.textContent = currentNum;
+}
 
+function operationDisplay(operation) {
+    // operator = operation;
+    previousNum = currentNum;
+    prevOperandTextElement.textContent = previousNum + " " + operation;
+    currentNum = "";
+    currentOperandTextElement.textContent = ""; 
 }
 
 function clear() {
+    currentOperandTextElement.textContent = "";
+    prevOperandTextElement.textContent = "";
+    currentNum = "";
+    previousNum = ""
+    console.log("hi");
+};
 
-
-    currentOperandTextElement = "";
-    prevOperandTextElement = "";
-}
+function backSpace() {
+    currentOperandTextElement.textContent = currentOperandTextElement.textContent.slice(0, -1);
+};
 
 function add(num1, num2) {
     return num1 + num2;
