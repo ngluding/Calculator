@@ -19,13 +19,16 @@ numberButton.forEach((button) => {
 operationButton.forEach((button) => {
     button.addEventListener("click", (e) => {
         operationDisplay(e.target.textContent);
-        console.log(e);
+        operator = e.target.textContent;
+        console.log(operator);
     })
 })
 
 clearButton.addEventListener("click", clear);
 
 deleteButton.addEventListener("click", backSpace);
+
+equalsButton.addEventListener("click", calculate);
 
 function numberDisplay(number) {
     if (number === "." && currentOperandTextElement.textContent.includes(".")) return;
@@ -46,12 +49,43 @@ function clear() {
     prevOperandTextElement.textContent = "";
     currentNum = "";
     previousNum = ""
-    console.log("hi");
 };
 
 function backSpace() {
     currentOperandTextElement.textContent = currentOperandTextElement.textContent.slice(0, -1);
 };
+
+// function evaluate() {
+//     prevOperandTextElement.textContent = "";
+//     currentOperandTextElement.textContent = calculate();
+// }
+
+function calculate() {
+    num1 = Number(previousNum);
+    num2 = Number(currentNum);
+
+
+    switch(operator) {
+        case "+":
+            num1 = add(num1, num2);
+            break;
+        case "-":
+            num1 = substract(num1, num2);
+            break;
+        case "x":
+            num1 = multiply(num1, num2);
+            break;
+        case "÷":
+            num1 = divide(num1, num2);
+            break;
+        default:
+            return;
+    }
+
+    prevOperandTextElement.textContent = "";
+    currentOperandTextElement.textContent = num1;
+
+}
 
 function add(num1, num2) {
     return num1 + num2;
@@ -69,7 +103,3 @@ function divide(num1, num2) {
     return num1 / num2;
 };
 
-function operate(operator, num1, num2) {
-    
-
-};
