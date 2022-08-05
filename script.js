@@ -55,6 +55,23 @@ function backSpace() {
     currentOperandTextElement.textContent = currentOperandTextElement.textContent.slice(0, -1);
 };
 
+function roundNumber(num) {
+    return Math.round(num * 100000000) / 100000000;
+}
+
+function updateDisplay() {
+    num1 = roundNumber(num1);
+    num1 = num1.toString();
+    prevOperandTextElement.textContent = "";
+
+    console.log(num1.length);
+
+    if (num1.length > 9) {
+        currentOperandTextElement.textContent = num1 + "...";
+    } else {
+        currentOperandTextElement.textContent = num1;
+    }
+}
 // function evaluate() {
 //     prevOperandTextElement.textContent = "";
 //     currentOperandTextElement.textContent = calculate();
@@ -70,7 +87,7 @@ function calculate() {
             num1 = add(num1, num2);
             break;
         case "-":
-            num1 = substract(num1, num2);
+            num1 = subtract(num1, num2);
             break;
         case "x":
             num1 = multiply(num1, num2);
@@ -82,8 +99,9 @@ function calculate() {
             return;
     }
 
-    prevOperandTextElement.textContent = "";
-    currentOperandTextElement.textContent = num1;
+    updateDisplay();
+    // prevOperandTextElement.textContent = "";
+    // currentOperandTextElement.textContent = num1;
 
 }
 
