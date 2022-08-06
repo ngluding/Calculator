@@ -9,6 +9,7 @@ const currentOperandTextElement= document.querySelector("[data-current-operand]"
 let currentNum = "";
 let previousNum = "";
 let operator = "";
+let secondEquation = false;
 
 numberButton.forEach((button) => {
     button.addEventListener("click", (e) => {
@@ -19,8 +20,12 @@ numberButton.forEach((button) => {
 operationButton.forEach((button) => {
     button.addEventListener("click", (e) => {
         operationDisplay(e.target.textContent);
-        operator = e.target.textContent;
-        console.log(operator);
+        // operatorSign = e.target.textContent;
+        // operator = operatorSign;
+        // if (previousNum && currentNum && operator) {
+        //     calculate();
+        //     console,log("hi");
+        // }
     })
 })
 
@@ -36,12 +41,28 @@ function numberDisplay(number) {
     currentOperandTextElement.textContent = currentNum;
 }
 
-function operationDisplay(operation) {
+function operationDisplay(op) {
     // operator = operation;
-    previousNum = currentNum;
-    prevOperandTextElement.textContent = previousNum + " " + operation;
-    currentNum = "";
+    if (previousNum === "") {
+        previousNum = currentNum;
+        operationCheck(op);
+    } else if (currentNum === "") {
+        operationCheck(op);
+    } else {
+        calculate();
+        operator = op;
+        console.log(`1) ${previousNum}, 2) ${currentNum}`);
+        prevOperandTextElement.textContent = num1 + " " + operator;
+        currentOperandTextElement.textContent = ""; 
+        currentNum = "";
+    }
+}
+
+function operationCheck(text) {
+    operator = text
+    prevOperandTextElement.textContent = previousNum + " " + operator;
     currentOperandTextElement.textContent = ""; 
+    currentNum = "";
 }
 
 function clear() {
@@ -49,6 +70,7 @@ function clear() {
     prevOperandTextElement.textContent = "";
     currentNum = "";
     previousNum = ""
+    secondEquation = false;
 };
 
 function backSpace() {
@@ -62,9 +84,17 @@ function roundNumber(num) {
 function updateDisplay() {
     num1 = roundNumber(num1);
     num1 = num1.toString();
-    prevOperandTextElement.textContent = "";
 
-    console.log(num1.length);
+    if (secondEquation) {
+        prevOperandTextElement.textContent = num1 + " " + operator + 
+        " " + currentNum; 
+    } else {
+        prevOperandTextElement.textContent = previousNum + " " + operator + 
+        " " + currentNum;
+        secondEquation = true;
+    }
+
+    console.log(num1);
 
     if (num1.length > 9) {
         currentOperandTextElement.textContent = num1 + "...";
@@ -98,6 +128,9 @@ function calculate() {
         default:
             return;
     }
+
+    console.log(`This is num1 ${num1} and num2 ${num2}`);
+    console.log(`This is prev ${previousNum} and current ${currentNum}`);
 
     updateDisplay();
     // prevOperandTextElement.textContent = "";
