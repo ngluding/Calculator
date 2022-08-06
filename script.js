@@ -20,12 +20,6 @@ numberButton.forEach((button) => {
 operationButton.forEach((button) => {
     button.addEventListener("click", (e) => {
         operationDisplay(e.target.textContent);
-        // operatorSign = e.target.textContent;
-        // operator = operatorSign;
-        // if (previousNum && currentNum && operator) {
-        //     calculate();
-        //     console,log("hi");
-        // }
     })
 })
 
@@ -60,17 +54,17 @@ function operationDisplay(op) {
     }
 }
 
-function operationCheck(text) {
-    operator = text
+function operationCheck(op) {
+    operator = op
 
     if (secondEquation) {
         prevOperandTextElement.textContent = answer + " " + operator;
         currentOperandTextElement.textContent = ""; 
-    currentNum = "";
+        currentNum = "";
     } else {
-    prevOperandTextElement.textContent = previousNum + " " + operator;
-    currentOperandTextElement.textContent = ""; 
-    currentNum = "";
+        prevOperandTextElement.textContent = previousNum + " " + operator;
+        currentOperandTextElement.textContent = ""; 
+        currentNum = "";
     }
 }
 
@@ -103,62 +97,33 @@ function updateDisplay() {
         secondEquation = true;
     }
 
-    if (num1.length > 9) {
+    if (answer.length > 9) {
         currentOperandTextElement.textContent = answer + "...";
     } else {
         currentOperandTextElement.textContent = answer;
     }
 }
-// function evaluate() {
-//     prevOperandTextElement.textContent = "";
-//     currentOperandTextElement.textContent = calculate();
-// }
 
 function calculate() {
     num1 = Number(previousNum);
     num2 = Number(currentNum);
 
-
     switch(operator) {
         case "+":
-            answer = add(num1, num2);
+            answer = num1 + num2;
             break;
         case "-":
-            answer = subtract(num1, num2);
+            answer = num1 - num2;
             break;
         case "x":
-            answer = multiply(num1, num2);
+            answer = num1 * num2;
             break;
         case "÷":
-            answer = divide(num1, num2);
+            answer = num1 / num2;
             break;
         default:
             return;
     }
 
-    // previousNum = answer;
-    console.log(`This is answer ${answer}`);
-    console.log(`This is prev ${previousNum} and current ${currentNum}`);
-
     updateDisplay();
-    // prevOperandTextElement.textContent = "";
-    // currentOperandTextElement.textContent = num1;
-
 }
-
-function add(num1, num2) {
-    return num1 + num2;
-};
-
-function subtract(num1, num2) {
-    return num1 - num2;
-};
-
-function multiply(num1, num2) {
-    return num1 * num2;
-};
-
-function divide(num1, num2) {
-    return num1 / num2;
-};
-
