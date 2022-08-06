@@ -51,8 +51,10 @@ function operationDisplay(op) {
     } else {
         calculate();
         operator = op;
+        previousNum = answer;
+        secondEquation = false;
         console.log(`1) ${previousNum}, 2) ${currentNum}`);
-        prevOperandTextElement.textContent = num1 + " " + operator;
+        prevOperandTextElement.textContent = answer + " " + operator;
         currentOperandTextElement.textContent = ""; 
         currentNum = "";
     }
@@ -60,9 +62,16 @@ function operationDisplay(op) {
 
 function operationCheck(text) {
     operator = text
+
+    if (secondEquation) {
+        prevOperandTextElement.textContent = answer + " " + operator;
+        currentOperandTextElement.textContent = ""; 
+    currentNum = "";
+    } else {
     prevOperandTextElement.textContent = previousNum + " " + operator;
     currentOperandTextElement.textContent = ""; 
     currentNum = "";
+    }
 }
 
 function clear() {
@@ -82,11 +91,11 @@ function roundNumber(num) {
 }
 
 function updateDisplay() {
-    num1 = roundNumber(num1);
-    num1 = num1.toString();
+    answer = roundNumber(answer);
+    answer = answer.toString();
 
     if (secondEquation) {
-        prevOperandTextElement.textContent = num1 + " " + operator + 
+        prevOperandTextElement.textContent = answer + " " + operator + 
         " " + currentNum; 
     } else {
         prevOperandTextElement.textContent = previousNum + " " + operator + 
@@ -94,12 +103,10 @@ function updateDisplay() {
         secondEquation = true;
     }
 
-    console.log(num1);
-
     if (num1.length > 9) {
-        currentOperandTextElement.textContent = num1 + "...";
+        currentOperandTextElement.textContent = answer + "...";
     } else {
-        currentOperandTextElement.textContent = num1;
+        currentOperandTextElement.textContent = answer;
     }
 }
 // function evaluate() {
@@ -114,22 +121,23 @@ function calculate() {
 
     switch(operator) {
         case "+":
-            num1 = add(num1, num2);
+            answer = add(num1, num2);
             break;
         case "-":
-            num1 = subtract(num1, num2);
+            answer = subtract(num1, num2);
             break;
         case "x":
-            num1 = multiply(num1, num2);
+            answer = multiply(num1, num2);
             break;
         case "÷":
-            num1 = divide(num1, num2);
+            answer = divide(num1, num2);
             break;
         default:
             return;
     }
 
-    console.log(`This is num1 ${num1} and num2 ${num2}`);
+    // previousNum = answer;
+    console.log(`This is answer ${answer}`);
     console.log(`This is prev ${previousNum} and current ${currentNum}`);
 
     updateDisplay();
