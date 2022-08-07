@@ -23,6 +23,8 @@ operationButton.forEach((button) => {
     })
 })
 
+window.addEventListener("keydown", keyInput);
+
 clearButton.addEventListener("click", clear);
 
 deleteButton.addEventListener("click", backSpace);
@@ -33,6 +35,7 @@ function numberDisplay(number) {
     if (number === "." && currentOperandTextElement.textContent.includes(".")) return;
     currentNum += number;
     currentOperandTextElement.textContent = currentNum;
+    console.log(number);
 }
 
 function operationDisplay(op) {
@@ -52,6 +55,7 @@ function operationDisplay(op) {
         currentOperandTextElement.textContent = ""; 
         currentNum = "";
     }
+    console.log(op);
 }
 
 function operationCheck(op) {
@@ -126,4 +130,19 @@ function calculate() {
     }
 
     updateDisplay();
+}
+
+function keyInput(e) {
+    if (e.key >= 0 && e.key <= 9 || e.key === ".") numberDisplay(e.key);
+    if (e.key === "+" || e.key === "-" || e.key === "/" || e.key === "*") operationDisplay(operatorConvertor(e.key));
+    if (e.key === "Backspace") backSpace();
+    if (e.key === "Enter") calculate();
+}
+
+
+function operatorConvertor(op) {
+    if (op === "/") return "÷";
+    if (op === "*") return "x";
+    if (op === "+") return "+";
+    if (op === "-") return "-";
 }
