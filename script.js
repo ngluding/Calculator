@@ -33,9 +33,14 @@ equalsButton.addEventListener("click", calculate);
 
 function numberDisplay(number) {
     if (number === "." && currentOperandTextElement.textContent.includes(".")) return;
+    if (secondEquation) {
+        clear();
+        currentNum += number;
+        currentOperandTextElement.textContent = currentNum;
+    } else {
     currentNum += number;
     currentOperandTextElement.textContent = currentNum;
-    console.log(number);
+    }
 }
 
 function operationDisplay(op) {
@@ -55,7 +60,6 @@ function operationDisplay(op) {
         currentOperandTextElement.textContent = ""; 
         currentNum = "";
     }
-    console.log(op);
 }
 
 function operationCheck(op) {
@@ -93,16 +97,19 @@ function updateDisplay() {
     answer = answer.toString();
 
     if (secondEquation) {
-        prevOperandTextElement.textContent = answer + " " + operator + 
-        " " + currentNum; 
+        prevOperandTextElement.textContent = Number(answer).toExponential(11) + " " + operator + 
+        " " + Number(currentNum).toExponential(11); 
     } else {
-        prevOperandTextElement.textContent = previousNum + " " + operator + 
-        " " + currentNum;
+        prevOperandTextElement.textContent = Number(previousNum).toExponential(11) + " " + operator + 
+        " " + Number(currentNum).toExponential(11);
         secondEquation = true;
     }
 
-    if (answer.length > 9) {
+    if (answer.length > 8 && answer.length < 11) {
         currentOperandTextElement.textContent = answer + "...";
+    } else if (answer.length > 11) {
+        currentOperandTextElement.textContent = Number(answer).toExponential(11);
+        console.log("Over 11");
     } else {
         currentOperandTextElement.textContent = answer;
     }
