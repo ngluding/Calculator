@@ -97,12 +97,32 @@ function updateDisplay() {
     answer = answer.toString();
 
     if (secondEquation) {
-        prevOperandTextElement.textContent = Number(answer).toExponential(11) + " " + operator + 
-        " " + Number(currentNum).toExponential(11); 
+        prevOperandTextElement.textContent = answer + " " + operator + 
+        " " + currentNum; 
+        if (answer.length > 11) {
+            prevOperandTextElement.textContent = Number(answer).toExponential(11) + " " + operator + 
+            " " + currentNum; 
+        } else if (currentNum.length > 11) {
+            prevOperandTextElement.textContent = answer + " " + operator + 
+            " " + Number(currentNum).toExponential(11); 
+        } else if (answer.length > 11 || currentNum.length > 11) {
+            prevOperandTextElement.textContent = Number(answer).toExponential(11) + " " + operator + 
+            " " + Number(currentNum).toExponential(11); 
+        }
     } else {
-        prevOperandTextElement.textContent = Number(previousNum).toExponential(11) + " " + operator + 
-        " " + Number(currentNum).toExponential(11);
+        prevOperandTextElement.textContent = previousNum + " " + operator + 
+        " " + currentNum;
         secondEquation = true;
+        if (previousNum.length > 11) {
+            prevOperandTextElement.textContent = Number(previousNum).toExponential(11) + " " + operator + 
+            " " + currentNum; 
+        } else if (currentNum.length > 11) {
+            prevOperandTextElement.textContent = previousNum + " " + operator + 
+            " " + Number(currentNum).toExponential(11); 
+        } else if (previousNum.length > 11 || currentNum.length > 11) {
+            prevOperandTextElement.textContent = Number(previousNum).toExponential(11) + " " + operator + 
+            " " + Number(currentNum).toExponential(11); 
+        }
     }
 
     if (answer.length > 8 && answer.length < 11) {
