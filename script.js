@@ -55,10 +55,15 @@ function operationDisplay(op) {
         operator = op;
         previousNum = answer;
         secondEquation = false;
-        console.log(`1) ${previousNum}, 2) ${currentNum}`);
-        prevOperandTextElement.textContent = answer + " " + operator;
-        currentOperandTextElement.textContent = ""; 
-        currentNum = "";
+        if (answer.length > 11) {
+            prevOperandTextElement.textContent = Number(answer).toExponential(11) + " " + operator; 
+            currentOperandTextElement.textContent = ""; 
+            currentNum = "";
+        } else {
+            prevOperandTextElement.textContent = answer + " " + operator;
+            currentOperandTextElement.textContent = ""; 
+            currentNum = "";
+        } 
     }
 }
 
@@ -69,10 +74,20 @@ function operationCheck(op) {
         prevOperandTextElement.textContent = answer + " " + operator;
         currentOperandTextElement.textContent = ""; 
         currentNum = "";
+        if (answer.length > 11) {
+            prevOperandTextElement.textContent = Number(answer).toExponential(11) + " " + operator; 
+            currentOperandTextElement.textContent = ""; 
+            currentNum = "";
+        }
     } else {
         prevOperandTextElement.textContent = previousNum + " " + operator;
         currentOperandTextElement.textContent = ""; 
         currentNum = "";
+        if (previousNum.length > 11) {
+            prevOperandTextElement.textContent = Number(previousNum).toExponential(11) + " " + operator; 
+            currentOperandTextElement.textContent = ""; 
+            currentNum = "";
+        }
     }
 }
 
@@ -85,6 +100,7 @@ function clear() {
 };
 
 function backSpace() {
+    if (secondEquation && answer && currentNum && previousNum) return;
     currentOperandTextElement.textContent = currentOperandTextElement.textContent.slice(0, -1);
 };
 
@@ -96,32 +112,37 @@ function updateDisplay() {
     answer = roundNumber(answer);
     answer = answer.toString();
 
+    if (secondEquation && answer && currentNum && previousNum) return;
+
     if (secondEquation) {
         prevOperandTextElement.textContent = answer + " " + operator + 
         " " + currentNum; 
-        if (answer.length > 11) {
+        if (answer.length > 11 && currentNum.length > 11) {
+            prevOperandTextElement.textContent = Number(answer).toExponential(11) + " " + operator + 
+            " " + Number(currentNum).toExponential(11); 
+        } else if (answer.length > 11) {
             prevOperandTextElement.textContent = Number(answer).toExponential(11) + " " + operator + 
             " " + currentNum; 
         } else if (currentNum.length > 11) {
             prevOperandTextElement.textContent = answer + " " + operator + 
-            " " + Number(currentNum).toExponential(11); 
-        } else if (answer.length > 11 || currentNum.length > 11) {
-            prevOperandTextElement.textContent = Number(answer).toExponential(11) + " " + operator + 
             " " + Number(currentNum).toExponential(11); 
         }
     } else {
         prevOperandTextElement.textContent = previousNum + " " + operator + 
         " " + currentNum;
         secondEquation = true;
-        if (previousNum.length > 11) {
+        if (previousNum.length > 11 && currentNum.length > 11) {
+            prevOperandTextElement.textContent = Number(previousNum).toExponential(11) + " " + operator + 
+            " " + Number(currentNum).toExponential(11); 
+            secondEquation = true;
+        } else if (previousNum.length > 11) {
             prevOperandTextElement.textContent = Number(previousNum).toExponential(11) + " " + operator + 
             " " + currentNum; 
+            secondEquation = true;
         } else if (currentNum.length > 11) {
             prevOperandTextElement.textContent = previousNum + " " + operator + 
             " " + Number(currentNum).toExponential(11); 
-        } else if (previousNum.length > 11 || currentNum.length > 11) {
-            prevOperandTextElement.textContent = Number(previousNum).toExponential(11) + " " + operator + 
-            " " + Number(currentNum).toExponential(11); 
+            secondEquation = true;
         }
     }
 
@@ -129,7 +150,6 @@ function updateDisplay() {
         currentOperandTextElement.textContent = answer + "...";
     } else if (answer.length > 11) {
         currentOperandTextElement.textContent = Number(answer).toExponential(11);
-        console.log("Over 11");
     } else {
         currentOperandTextElement.textContent = answer;
     }
