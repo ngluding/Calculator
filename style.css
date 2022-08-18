@@ -125,6 +125,14 @@ button:hover {
         border-radius: 15px;
     }
 
+    .prev-num {
+        font-size: 15px;
+    }
+    
+    .current-num {
+        font-size: 20px;
+    }
+
     .clear,
     .delete {
         height: 40px;
